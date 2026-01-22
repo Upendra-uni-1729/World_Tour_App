@@ -4,8 +4,31 @@ import HomePage from "./pages/Homepage"
 import Pricing from "./pages/Pricing"
 import Login from "./pages/Login"
 import AppLayout from "./pages/AppLayout"
+import { useEffect, useState } from "react"
 
+
+const URL = 'https://redesigned-bassoon-949qjrq69r7hpw4w-9000.app.github.dev';
 function App() {
+const [cities,setCities]  = useState({});
+const [isLoading,setIsLoading] = useState(false);
+
+//console.log(cities,isLoading);
+
+  useEffect(function(){
+    async function getCities(){
+      try{
+        setIsLoading(true);
+        const res = await fetch(`${URL}/cities`);
+        const data = await res.json();
+        setIsLoading(false);
+        setCities(() => data);
+
+      }catch(err){
+        console.log(err.message);
+      }
+    }
+    getCities();
+  },[])
   return (
     
     <BrowserRouter>
